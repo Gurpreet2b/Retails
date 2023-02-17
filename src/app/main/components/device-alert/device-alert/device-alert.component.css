@@ -46,3 +46,8 @@
 .deviceTitle::-webkit-scrollbar {
     display: none;
 }
+
+.FullScreenSet{
+    width: 100vw;
+    height: 100vh;
+}

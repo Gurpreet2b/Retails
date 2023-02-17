@@ -22,6 +22,7 @@ export class DeviceAlertComponent implements OnInit {
   public DeviceName: any;
   public SetInterval: any = 1;
   public DigitalTime: any = 30;
+  public ShowSlideImage: any = 0;
 
   constructor(private http: HttpService,
     private toastr: ToastrService,
@@ -40,6 +41,7 @@ export class DeviceAlertComponent implements OnInit {
     this.SetInterval = setInterval(() => {
       this.GetDigitalAlertList();
     }, Number(this.DigitalTime) * 1000);
+
   }
 
   GetDigitalAlertList() {
@@ -50,6 +52,21 @@ export class DeviceAlertComponent implements OnInit {
       if (res.status === true) {
 
         this.DigitalAlertList = res.data.scroller_media;
+
+        let index = 0
+        if (this.DigitalAlertList.length > 0) {
+            this.SetInterval = setInterval(() => {
+              if (index === this.DigitalAlertList.length-1){
+                index = 0;
+              }
+              else{
+                index = index + 1;
+              }
+            this.ShowSlideImage = index;
+          }, Number(this.DigitalAlertList[index].time_to_play) * 1000);
+        }
+        // dsas
+        // [{"url":"df"}]
         this.DigitalAlertTicker = res.data.ticker_alerts;
         this.DigitalTime = res.data.time_seconds;
         this.loading = false;

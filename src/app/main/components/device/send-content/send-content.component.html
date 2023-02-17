@@ -567,66 +567,151 @@
                     <div class="tab-pane active" id="device" role="tabpanel">
                         <form [formGroup]="DigitalMediaForm" (ngSubmit)="OnDigitalSubmit()">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="exampleFormControlInput1">Name</label>
-                                        <input type="text" placeholder="Enter Name" class="form-control" formControlName="name"
-                                        [ngClass]="{'error': submitted && myDigitalMediaForm.name.errors}">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleFormControlInput1">Name</label>
+                                                <input type="text" placeholder="Enter Name" class="form-control"
+                                                    formControlName="name"
+                                                    [ngClass]="{'error': submitted && myDigitalMediaForm.name.errors}">
 
-                                        <div class="invalid-feedback"
-                                            *ngIf="submitted && myDigitalMediaForm.name.errors?.required">
-                                            <sup>*</sup> Please Enter Name
+                                                <div class="invalid-feedback"
+                                                    *ngIf="submitted && myDigitalMediaForm.name.errors?.required">
+                                                    <sup>*</sup> Please Enter Name
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6" style="margin-top: 28px; display: flex;">
+                                            <div class="form-group mr-2">
+                                                <button type="button" class="btn btn-success"
+                                                data-bs-toggle="modal" data-bs-target="#AddMediaModal"> Add Media </button>
+                                            </div>
+                                            <div class="form-group">
+                                                <button type="button" class="btn btn-success"
+                                                data-bs-toggle="modal" data-bs-target="#MediaImagePreviewListModal"> Preview </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- <div class="row">
+                                        <div class="col-md-3 skin_PopupSet ticker-skin cursor"
+                                            *ngFor="let img of MediaImageList">
+                                            <img *ngIf="img.media_file" src="{{img.media_file}}" alt=""
+                                                style="width: 100%; height: 100%;">
+                                        </div>
+                                        <div class="col-md-3 skin_PopupSet ticker-skin cursor">
+                                            <img src="/assets/img/plus.png" alt="logo" title="Add media"
+                                                data-bs-toggle="modal" data-bs-target="#AddMediaModal">
+                                        </div>
+                                    </div> -->
+
+                                    <div class="row" *ngIf="MediaImageList.length > 0">
+                                        <section class="gallery-block grid-gallery">
+                                            <div class="container">
+                                                <div class="row custom-gallerey">
+                                                    <div class="col-md-6 col-lg-3 item" *ngFor="let img of MediaImageList">
+                                                        <!-- <a class="lightbox"
+                                                        href="{{img.media_file}}" target="_blank"> -->
+                                                        <img class="img-fluid image scale-on-hover cursor" (click)="OnSelectedMediaImage(img.media_file)"
+                                                        src="{{img.media_file}}" data-bs-toggle="modal" data-bs-target="#MediaImageModal">
+                                                        <!-- </a> -->
+                                                        <div class="text-center">
+                                                            <input type="time" step="1" class="form-control text-number mt-2" 
+                                                            [(ngModel)]="img.time_to_play" [ngModelOptions]="{standalone: true}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-success">{{
+                                                    'CreateSubscription.saveButton'
+                                                    | translate}} </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="exampleFormControlInput1">Name</label>
+                                                <input type="text" placeholder="Enter Name" class="form-control"
+                                                    formControlName="name"
+                                                    [ngClass]="{'error': submitted && myDigitalMediaForm.name.errors}">
+        
+                                                <div class="invalid-feedback"
+                                                    *ngIf="submitted && myDigitalMediaForm.name.errors?.required">
+                                                    <sup>*</sup> Please Enter Name
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <label><b> Selected Media </b></label>
+                                            <div class="right-scroll">
+                                                <table class="table table-hover ">
+                                                    <thead class="thead-dark">
+                                                        <tr>
+                                                            <th class="text-left" style="width: 6vw">
+                                                                <img src="/assets/img/plus.png" alt="logo" width="40"
+                                                                    title="Add media" height="40" class="mr-5 cursor"
+                                                                    data-bs-toggle="modal" data-bs-target="#AddMediaModal">
+                                                            </th>
+                                                            <th class="text-left" style="vertical-align: middle;">
+                                                                <span> Name </span>
+                                                            </th>
+                                                            <th class="text-left" style="vertical-align: middle;">
+                                                                <span>Action</span>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let media of MediaImageList; let i=index">
+                                                            <td></td>
+                                                            <td class="text-left">
+                                                                {{media.name}}
+                                                            </td>
+                                                            <td class="text-left">
+                                                                <span class="text-danger">
+                                                                    <i class="far fa-trash-alt cursor"
+                                                                        (click)="onRemoveRow(i)"></i>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-success">{{ 'CreateSubscription.saveButton'
+                                                    | translate}} </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div *ngFor="let img of MediaImageList; let i=index; let first = first; let last = last;">
+                                        <div *ngIf="i === ShowSlideImage">
+                                            <img *ngIf="img.media_file" src="{{img.media_file}}"
+                                                alt="" style="width: 100vw; height: 100vh;">
+                                        </div>
+                                    </div>
+                                </div> -->
                             </div>
-                            <div class="row">
-                                <div class="col-lg-6">
 
-                                    <label><b> Selected Media </b></label>
-                                    <div class="right-scroll">
-                                        <table class="table table-hover ">
-                                            <thead class="thead-dark">
-                                                <tr>
-                                                    <th class="text-left" style="width: 6vw">
-                                                        <img src="/assets/img/plus.png" alt="logo" width="40" title="Add media"
-                                                            height="40" class="mr-5 cursor" data-bs-toggle="modal"
-                                                            data-bs-target="#AddMediaModal">
-                                                    </th>
-                                                    <th class="text-left" style="vertical-align: middle;">
-                                                        <span> Name </span>
-                                                    </th>
-                                                    <th class="text-left" style="vertical-align: middle;">
-                                                        <span>Action</span>
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr *ngFor="let media of MediaImageList; let i=index">
-                                                <td></td>
-                                                <td class="text-left">
-                                                    {{media.name}}
-                                                </td>
-                                                <td class="text-left">
-                                                    <span class="text-danger">
-                                                        <i class="far fa-trash-alt cursor"
-                                                            (click)="onRemoveRow(i)"></i>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-success">{{ 'CreateSubscription.saveButton'
-                                            | translate}} </button>
-                                    </div>
-                                </div>
-                            </div>
                         </form>
                     </div>
 
@@ -1145,11 +1230,11 @@
                             <div class="form-group">
                                 <label for="exampleFormControlInput1">Screen Time (Seconds)</label>
                                 <input type="number" placeholder="" class="form-control" formControlName="time_to_play"
-                                [ngClass]="{'error': submitted && myMediaForm.time_to_play.errors}">
+                                    [ngClass]="{'error': submitted && myMediaForm.time_to_play.errors}">
 
                                 <div class="invalid-feedback"
                                     *ngIf="submitted && myMediaForm.time_to_play.errors?.required">
-                                    <sup>*</sup> Please Enter Your Screen Time 
+                                    <sup>*</sup> Please Enter Your Screen Time
                                 </div>
                             </div>
                         </div>
@@ -1159,10 +1244,10 @@
                             <div class="form-group">
                                 <label>Image</label> <br>
                                 <input type="file" (change)="onFileChangeDevice($event)" accept="image/*"
-                                formControlName="image" [ngClass]="{'error': submitted && myMediaForm.image.errors}"><br>
-                                <div class="invalid-feedback"
-                                    *ngIf="submitted && myMediaForm.image.errors?.required">
-                                    <sup>*</sup> Please Select Your Image 
+                                    formControlName="image"
+                                    [ngClass]="{'error': submitted && myMediaForm.image.errors}"><br>
+                                <div class="invalid-feedback" *ngIf="submitted && myMediaForm.image.errors?.required">
+                                    <sup>*</sup> Please Select Your Image
                                 </div>
                             </div>
                         </div>
@@ -1170,14 +1255,56 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <button type="button" class="btn btn-outline-secondary mr-1"
-                                data-bs-dismiss="modal">{{ 'CreateDevice.deviceCancelButton' | translate}}</button>
+                                <button type="button" class="btn btn-outline-secondary mr-1" data-bs-dismiss="modal">{{
+                                    'CreateDevice.deviceCancelButton' | translate}}</button>
                                 <button type="submit" class="btn btn-success">{{ 'CreateSubscription.saveButton' |
                                     translate}} </button>
                             </div>
                         </div>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="MediaImageModal">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 55vw;">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Preview Image</h4>
+                <button type="button" class="close text-white" style="font-size: 30px;"
+                    data-bs-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <img class="img-fluid image scale-on-hover" src="{{SelectedMediaImage}}" 
+                style="width: 54vw; height: 54vh;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="MediaImagePreviewListModal">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 55vw;">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Preview Slide Image List</h4>
+                <button type="button" class="close text-white" style="font-size: 30px;"
+                    data-bs-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="" *ngFor="let med of MediaImageList; let i=index">
+                    <div *ngIf="i === ShowSlideImage">
+                        <img src="{{med.media_file}}" class="img-fluid image scale-on-hover" alt="med.name"
+                        style="width: 54vw; height: 54vh;">
+                    </div>
+                </div>
             </div>
         </div>
     </div>

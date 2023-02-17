@@ -45,6 +45,8 @@ export class SendContentComponent implements OnInit {
   public SkinIdListLocalStorge: any = [];
   public SkinListLocal: any
   public MediaImageList: any = [];
+  public ShowSlideImage: any = 0;
+  public SelectedMediaImage: any;
 
   constructor(private http: HttpService,
     private toastr: ToastrService, private router: Router,
@@ -1038,6 +1040,20 @@ export class SendContentComponent implements OnInit {
         this.toastr.success("Media Added Successfully !!");
         this.onDismiss()
         this.MediaImageList.push(responseData);
+
+        let index = 0
+        if (this.MediaImageList.length > 0) {
+            this.SetInterval = setInterval(() => {
+              if (index === this.MediaImageList.length-1){
+                index = 0;
+              }
+              else{
+                index = index + 1;
+              }
+            this.ShowSlideImage = index;
+          }, Number(this.MediaImageList[index].time_to_play) * 1000);
+        }
+        
         // this.router.navigate([`/device/send-user/${responseData.id}/${responseData.alert_type}`]);
         this.MediaForm.reset();
         this.loading = false;
@@ -1209,6 +1225,18 @@ export class SendContentComponent implements OnInit {
           name: res.data.name,
         });
         this.MediaImageList = res.data.media;
+        let index = 0
+        if (this.MediaImageList.length > 0) {
+            this.SetInterval = setInterval(() => {
+              if (index === this.MediaImageList.length-1){
+                index = 0;
+              }
+              else{
+                index = index + 1;
+              }
+            this.ShowSlideImage = index;
+          }, Number(this.MediaImageList[index].time_to_play) * 1000);
+        }
         this.authService.setCurrentUser({ token: res.token });
       } else {
         this.loading = false;
@@ -1234,6 +1262,10 @@ export class SendContentComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  OnSelectedMediaImage(val: any) {
+    this.SelectedMediaImage = val;
   }
 
 }
