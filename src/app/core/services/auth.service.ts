@@ -119,6 +119,15 @@ export class AuthService {
         return un;
     }
 
+    setUuid(Uuid: any) {
+        localStorage.setItem(btoa("Uuid"), btoa(Uuid));
+    }
+    getUuid() {
+        let un = localStorage.getItem(btoa("Uuid"));
+        un = un === null ? un : atob(un);
+        return un;
+    }
+
     setUserName(UserName: any) {
         localStorage.setItem(btoa("UserName"), btoa(UserName));
     }
@@ -127,7 +136,6 @@ export class AuthService {
         un = un === null ? un : atob(un);
         return un;
     }
-
 
     setRoleName(RoleName: any) {
         localStorage.setItem(btoa("RoleName"), btoa(RoleName));

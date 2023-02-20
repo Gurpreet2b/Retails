@@ -3,7 +3,7 @@
         <div class="col-lg-12">
             <div class="white_box">
                 <form [formGroup]="deviceForm" (ngSubmit)="OnSubmit()">
-                    <div class="row" *ngIf="!deviceId">
+                    <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="exampleFormControlInput1"> {{ 'CreateDevice.deviceName' | translate}}</label>
@@ -12,6 +12,15 @@
                                 <div class="invalid-feedback" *ngIf="submitted && myDeviceForm.name.errors?.required">
                                     <sup>*</sup>{{ 'CreateDevice.nameOfDevice' | translate}}
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1">Screen Uid</label>
+                                <input type="text" placeholder="Please Enter Screen Uid" class="form-control"
+                                formControlName="unique_code">
                             </div>
                         </div>
                     </div>

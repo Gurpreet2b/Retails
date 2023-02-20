@@ -612,15 +612,25 @@
                                         <section class="gallery-block grid-gallery">
                                             <div class="container">
                                                 <div class="row custom-gallerey">
-                                                    <div class="col-md-6 col-lg-3 item" *ngFor="let img of MediaImageList">
+                                                    <div class="col-md-6 col-lg-3 item" *ngFor="let img of MediaImageList; let i=index">
                                                         <!-- <a class="lightbox"
                                                         href="{{img.media_file}}" target="_blank"> -->
+                                                        <div class="closed cursor" (click)="onRemoveRow(i)" title="Delete Image">x</div>
                                                         <img class="img-fluid image scale-on-hover cursor" (click)="OnSelectedMediaImage(img.media_file)"
                                                         src="{{img.media_file}}" data-bs-toggle="modal" data-bs-target="#MediaImageModal">
                                                         <!-- </a> -->
-                                                        <div class="text-center">
-                                                            <input type="time" step="1" class="form-control text-number mt-2" 
-                                                            [(ngModel)]="img.time_to_play" [ngModelOptions]="{standalone: true}">
+                                                        <div style="display: inline-flex;">
+                                                            <!-- <input type="time" step="1" min='13:00' max= '15:00' class="form-control text-number mt-2" 
+                                                            [(ngModel)]="img.time_to_play" [ngModelOptions]="{standalone: true}"> -->
+                                                            <input type="number" class="form-control text-number mt-2 mr-2" 
+                                                            [(ngModel)]="img.hours" [ngModelOptions]="{standalone: true}"
+                                                            title="Hours">
+                                                            <input type="number" class="form-control text-number mt-2 mr-2" 
+                                                            [(ngModel)]="img.minutes" [ngModelOptions]="{standalone: true}"
+                                                            title="Minutes">
+                                                            <input type="number" class="form-control text-number mt-2" 
+                                                            [(ngModel)]="img.seconds" [ngModelOptions]="{standalone: true}"
+                                                            title="Seconds">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1225,17 +1235,31 @@
             <!-- Modal body -->
             <div class="modal-body">
                 <form [formGroup]="MediaForm" (ngSubmit)="OnMediaSubmit()">
+                    <h4>Screen Time</h4>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label for="exampleFormControlInput1">Screen Time (Seconds)</label>
-                                <input type="number" placeholder="" class="form-control" formControlName="time_to_play"
-                                    [ngClass]="{'error': submitted && myMediaForm.time_to_play.errors}">
+                                <label for="exampleFormControlInput1">Hours</label>
+                                <input type="number" placeholder="" class="form-control" formControlName="hours">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1">Minutes</label>
+                                <input type="number" placeholder="" class="form-control" formControlName="minutes">
 
-                                <div class="invalid-feedback"
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1">Seconds</label>
+                                <input type="number" placeholder="" class="form-control" formControlName="seconds">
+                                    <!-- [ngClass]="{'error': submitted && myMediaForm.time_to_play.errors}"> -->
+
+                                <!-- <div class="invalid-feedback"
                                     *ngIf="submitted && myMediaForm.time_to_play.errors?.required">
                                     <sup>*</sup> Please Enter Your Screen Time
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>

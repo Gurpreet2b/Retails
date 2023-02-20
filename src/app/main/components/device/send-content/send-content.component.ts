@@ -1007,7 +1007,9 @@ export class SendContentComponent implements OnInit {
   // Add Media Image 
 
   MediaForm = this.fb.group({
-    time_to_play: ['', Validators.required],
+    hours: [0],
+    minutes: [0],
+    seconds: [0],
     image: ['', Validators.required],
   });
 
@@ -1051,7 +1053,7 @@ export class SendContentComponent implements OnInit {
                 index = index + 1;
               }
             this.ShowSlideImage = index;
-          }, Number(this.MediaImageList[index].time_to_play) * 1000);
+          }, Number(this.MediaImageList[index].total_seconds) * 1000);
         }
         
         // this.router.navigate([`/device/send-user/${responseData.id}/${responseData.alert_type}`]);
@@ -1235,7 +1237,7 @@ export class SendContentComponent implements OnInit {
                 index = index + 1;
               }
             this.ShowSlideImage = index;
-          }, Number(this.MediaImageList[index].time_to_play) * 1000);
+          }, Number(this.MediaImageList[index].total_seconds) * 1000);
         }
         this.authService.setCurrentUser({ token: res.token });
       } else {

@@ -156,9 +156,9 @@ export class SentListComponent implements OnInit {
   }
   onDeleteSkin(id: number) {
     this.loading = true;
-    this.http.delete(`publishers/${id}/`).subscribe((res: any) => {
+    this.http.delete(`digital_signage/${id}/delete_signage/`).subscribe((res: any) => {
       if (res.status === true) {
-        this.toastr.success("Publishers Deleted Successfully");
+        this.toastr.success("Deleted Successfully");
         this.GetSentMediaList(this.currentPage);
         this.authService.setCurrentUser({ token: res.token });
       } else {

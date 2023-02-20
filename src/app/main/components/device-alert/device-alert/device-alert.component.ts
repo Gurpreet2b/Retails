@@ -23,6 +23,7 @@ export class DeviceAlertComponent implements OnInit {
   public SetInterval: any = 1;
   public DigitalTime: any = 30;
   public ShowSlideImage: any = 0;
+  public Uuid: any;
 
   constructor(private http: HttpService,
     private toastr: ToastrService,
@@ -33,21 +34,26 @@ export class DeviceAlertComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.SetRestaurantName(`Digital Alert`);
-    this.DeviceName =  this.activeRoute.snapshot.params['type'];
-    this.Permission = this.authService.getPermission();
-    this.RoleAssign = JSON.parse(this.Permission.access_control_list);
-    this.RoleName = this.Permission.role;
-    this.GetDigitalAlertList();
-    this.SetInterval = setInterval(() => {
+    this.Uuid = this.authService.getUuid();
+    if (!this.Uuid) {
+      this.GetUid();
+    } else {
+      this.DeviceName =  this.activeRoute.snapshot.params['type'];
+      this.Permission = this.authService.getPermission();
+      this.RoleAssign = JSON.parse(this.Permission.access_control_list);
+      this.RoleName = this.Permission.role;
       this.GetDigitalAlertList();
-    }, Number(this.DigitalTime) * 1000);
-
+      
+      this.SetInterval = setInterval(() => {
+        this.GetDigitalAlertList();
+      }, Number(this.DigitalTime) * 1000);
+    }
   }
 
   GetDigitalAlertList() {
     this.loading = true;
 
-    this.http.get(`digital_signage/user_polling_list/?name=${this.DeviceName}`, null).subscribe((res: any) => {
+    this.http.get(`digital_signage/user_polling_list/?unique_code=${this.Uuid}`, null).subscribe((res: any) => {
       const responseData = res;
       if (res.status === true) {
 
@@ -63,10 +69,8 @@ export class DeviceAlertComponent implements OnInit {
                 index = index + 1;
               }
             this.ShowSlideImage = index;
-          }, Number(this.DigitalAlertList[index].time_to_play) * 1000);
+          }, Number(this.DigitalAlertList[index].total_seconds) * 1000);
         }
-        // dsas
-        // [{"url":"df"}]
         this.DigitalAlertTicker = res.data.ticker_alerts;
         this.DigitalTime = res.data.time_seconds;
         this.loading = false;
@@ -78,22 +82,22 @@ export class DeviceAlertComponent implements OnInit {
         // }
       } else {
         this.loading = false;
-        this.toastr.warning(res.message);
+        // this.toastr.warning(res.message);
       }
     }, error => {
       this.loading = false;
-      if(error.status === 400) {
-        this.toastr.error("Server Bad Request");
-      } else if(error.status === 403) {
-        this.toastr.error("Forbidden Error");
-      } else if(error.status === 404) {
-        this.toastr.error("Server not Found");
-      } else if(error.status === 500) {
-        this.toastr.error("Internal Server Error");
-      } else {
-        this.toastr.error("Server not reachable");
-        this.loading = false;
-      }
+      // if(error.status === 400) {
+      //   this.toastr.error("Server Bad Request");
+      // } else if(error.status === 403) {
+      //   this.toastr.error("Forbidden Error");
+      // } else if(error.status === 404) {
+      //   this.toastr.error("Server not Found");
+      // } else if(error.status === 500) {
+      //   this.toastr.error("Internal Server Error");
+      // } else {
+      //   this.toastr.error("Server not reachable");
+      //   this.loading = false;
+      // }
     });
   }
 
@@ -104,26 +108,52 @@ export class DeviceAlertComponent implements OnInit {
     formData.append('alert_type', item.alert_type);
     this.http.post(`digital_signage/${item.id}/close_alert/`, formData).subscribe((res: any) => {
       if(res.status === true) {
-        this.toastr.success(res.message);
+        // this.toastr.success(res.message);
         this.GetDigitalAlertList();
       } else {
-        this.toastr.error(res.message);
+        // this.toastr.error(res.message);
         this.loading = false;
       }
     }, error => {
       this.loading = false;
-      if(error.status === 400) {
-        this.toastr.error("Server Bad Request");
-      } else if(error.status === 403) {
-        this.toastr.error("Forbidden Error");
-      } else if(error.status === 404) {
-        this.toastr.error("Server not Found");
-      } else if(error.status === 500) {
-        this.toastr.error("Internal Server Error");
+      // if(error.status === 400) {
+      //   this.toastr.error("Server Bad Request");
+      // } else if(error.status === 403) {
+      //   this.toastr.error("Forbidden Error");
+      // } else if(error.status === 404) {
+      //   this.toastr.error("Server not Found");
+      // } else if(error.status === 500) {
+      //   this.toastr.error("Internal Server Error");
+      // } else {
+      //   this.toastr.error("Server not reachable");
+      //   this.loading = false;
+      // }
+    });
+  }
+
+  GetUid() {
+    this.loading = true;
+    this.http.post(`uuid/`, null).subscribe((res: any) => {
+      if(res.status === true) {
+        this.authService.setUuid(res.uid);
       } else {
-        this.toastr.error("Server not reachable");
+        // this.toastr.error(res.message);
         this.loading = false;
       }
+    }, error => {
+      this.loading = false;
+      // if(error.status === 400) {
+      //   this.toastr.error("Server Bad Request");
+      // } else if(error.status === 403) {
+      //   this.toastr.error("Forbidden Error");
+      // } else if(error.status === 404) {
+      //   this.toastr.error("Server not Found");
+      // } else if(error.status === 500) {
+      //   this.toastr.error("Internal Server Error");
+      // } else {
+      //   this.toastr.error("Server not reachable");
+      //   this.loading = false;
+      // }
     });
   }
 

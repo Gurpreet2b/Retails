@@ -41,9 +41,9 @@
                                         <th>
                                             Type
                                         </th>
-                                        <th>
+                                        <!-- <th>
                                             User
-                                        </th>
+                                        </th> -->
                                         <th>
                                             Status
                                         </th>
@@ -61,11 +61,11 @@
                                         <td>
                                             {{sentMedia.alert_type}}
                                         </td>
-                                        <td>
+                                        <!-- <td>
                                             <img src="assets/img/users.png" alt="" width="27"
                                             height="27" class="cursor" title="Show Users" data-bs-toggle="modal"
                                             data-bs-target="#MediaUserListModalSent">
-                                        </td>
+                                        </td> -->
                                         <td>
                                             {{sentMedia.status}}
                                         </td>
@@ -82,9 +82,9 @@
                                                 (click)="GetPublisherEnable(publishers.id, 'Disabled')">
                                                 <img src="assets/img/sent-alert-action/stop.png" alt="">
                                             </span> -->
-                                            <!-- <span class="text-danger cursor" (click)="delete(publishers.id)">
+                                            <span class="text-danger cursor" (click)="delete(sentMedia.id)">
                                                 <i class="far fa-trash-alt"></i>
-                                            </span> -->
+                                            </span>
                                         </td>
                                     </tr>
                                     <tr *ngIf="SentMediaList?.length === 0">

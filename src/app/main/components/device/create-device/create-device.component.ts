@@ -43,6 +43,7 @@ export class CreateDeviceComponent implements OnInit, OnChanges {
 
   deviceForm = this.fb.group({
     name: ['', Validators.required],
+    unique_code: [''],
     refresh_time: [''],
     refresh_time_choice: [''],
   })
@@ -158,6 +159,7 @@ export class CreateDeviceComponent implements OnInit, OnChanges {
         this.loading = false;
         this.deviceForm.setValue({
           name: res.data.name,
+          unique_code: res.data.unique_code,
           refresh_time: res.data.refresh_time,
           refresh_time_choice: res.data.refresh_time_choice,
         });

@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'DEWA Smart Ticker';
+  title = '2b Innovations';
 
   constructor(
     private router: Router,

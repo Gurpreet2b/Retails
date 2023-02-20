@@ -48,7 +48,7 @@
                                             {{ 'Device.deviceListName' | translate}}
                                         </th>
                                         <th>
-                                            {{ 'Device.deviceListLink' | translate}}
+                                            Unique Code
                                         </th>
                                         <th>
                                             {{ 'Device.deviceListCreationDate' | translate}}
@@ -68,12 +68,13 @@
                                             {{device.name}}
                                         </td>
                                         <td>
-                                            <a target="_blank" [routerLink]="['/device', 'digital-alert', 'DN', device.name]"
+                                            {{device.unique_code}}
+                                            <!-- <a target="_blank" [routerLink]="['/device', 'digital-alert', 'DN', device.name]"
                                             style="color: #00838f;">
                                                 <u>
                                                     {{device.link}}
                                                 </u>
-                                            </a>
+                                            </a> -->
                                         </td>
                                         <td>
                                             {{dateformat(device.created_date)}}, {{Timeformat(device.created_date)}}

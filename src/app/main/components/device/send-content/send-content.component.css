@@ -137,10 +137,21 @@
   }
 
   .text-number{
-      width: 60%;
-      margin: auto;
+      width: 31%;
+      border: none;
   }
 
   .lightbox-parent{
       padding:20px
+  }
+
+  .closed {
+    text-align: right;
+    position: absolute;
+    font-size: 20px;
+    color: #fff;
+    z-index: 1;
+    margin-right: 17px;
+    left: 0;
+    right: 0;
   }

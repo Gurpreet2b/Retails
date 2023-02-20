@@ -1,7 +1,7 @@
 <!-- <div class="container-fluid plr_30 pt_30" style="margin-top: -60px;">
     <div class="row">
         <div class="col-md-12">
-            <h3 class="text-center">DEWA Smart Ticker</h3>
+            <h3 class="text-center">2b Innovations</h3>
         </div>
     </div>
     <hr>
@@ -178,7 +178,12 @@
     </div>
 </div> -->
 
-<div class="container-fluid p-0" style="margin-top: -70px;">
+<div class="container-fluid p-0" style="margin-top: -63px;">
+    <div *ngIf="DigitalAlertList.length === 0" class="UUID">
+        <h1 class="text-center">
+            {{Uuid}}
+        </h1> 
+    </div>
     <div class="" *ngFor="let digital of DigitalAlertList; let i=index">
         <div *ngIf="i === ShowSlideImage">
             <img src="{{digital.media_file}}" class="FullScreenSet" alt="digital.name">
