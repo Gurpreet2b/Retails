@@ -39,10 +39,10 @@ export class DeviceAlertComponent implements OnInit {
       this.GetUid();
     } else {
       this.DeviceName =  this.activeRoute.snapshot.params['type'];
+      this.GetDigitalAlertList();
       this.Permission = this.authService.getPermission();
       this.RoleAssign = JSON.parse(this.Permission.access_control_list);
       this.RoleName = this.Permission.role;
-      this.GetDigitalAlertList();
       
       this.SetInterval = setInterval(() => {
         this.GetDigitalAlertList();
@@ -135,6 +135,7 @@ export class DeviceAlertComponent implements OnInit {
     this.loading = true;
     this.http.post(`uuid/`, null).subscribe((res: any) => {
       if(res.status === true) {
+        this.Uuid = res.uid;
         this.authService.setUuid(res.uid);
       } else {
         // this.toastr.error(res.message);

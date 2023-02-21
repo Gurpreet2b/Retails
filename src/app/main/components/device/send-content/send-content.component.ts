@@ -1009,7 +1009,7 @@ export class SendContentComponent implements OnInit {
   MediaForm = this.fb.group({
     hours: [0],
     minutes: [0],
-    seconds: [0],
+    seconds: [10],
     image: ['', Validators.required],
   });
 
@@ -1218,6 +1218,46 @@ export class SendContentComponent implements OnInit {
   }
 
   // Digital Signage media Get By ID 
+  GetMediaById(Media: any) {
+    this.loading = true;
+
+    const formData = new FormData();
+    formData.append('hours', Media.hours);
+    formData.append('minutes', Media.minutes);
+    formData.append('seconds', Media.seconds);
+
+    this.http.patch(`scoller_media/${Media.id}/`, formData).subscribe(async (res: any) => {
+      if (res.status === true) {
+        this.loading = false;
+        this.toastr.success("Updated Successfully !!");
+        this.authService.setCurrentUser({ token: res.token });
+      } else {
+        this.loading = false;
+        this.toastr.warning(res.message);
+      }
+    }, error => {
+      this.loading = false;
+      if (error.error.code === 'token_not_valid') {
+        this.authService.logout();
+        this.router.navigate(['/signin']);
+        this.loading = false;
+        
+      } else if(error.status === 400) {
+        this.toastr.error("Server Bad Request");
+      } else if(error.status === 403) {
+        this.toastr.error("Forbidden Error");
+      } else if(error.status === 404) {
+        this.toastr.error("Server not Found");
+      } else if(error.status === 500) {
+        this.toastr.error("Internal Server Error");
+      } else {
+        this.toastr.error("Server not reachable");
+        this.loading = false;
+      }
+    });
+  }
+
+  // Digital Signage Scroller media Get By ID 
   GetDigitalById() {
     this.loading = true;
     this.http.get(`signage_scroller/${this.AlertId}/`).subscribe(async (res: any) => {
@@ -1268,6 +1308,18 @@ export class SendContentComponent implements OnInit {
 
   OnSelectedMediaImage(val: any) {
     this.SelectedMediaImage = val;
+  }
+
+  OnPreviousPreview(index: any){
+    if (index !== 0) {
+      this.ShowSlideImage = index - 1;
+    }
+  }
+
+  OnNextPreview(index: any){
+    if (this.MediaImageList.length - 1 !== index) {
+      this.ShowSlideImage = index + 1;
+    }
   }
 
 }
