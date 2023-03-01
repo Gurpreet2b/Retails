@@ -44,10 +44,22 @@ export class DeviceAlertComponent implements OnInit {
       this.RoleAssign = JSON.parse(this.Permission.access_control_list);
       this.RoleName = this.Permission.role;
       
-      this.SetInterval = setInterval(() => {
-        this.GetDigitalAlertList();
-      }, Number(this.DigitalTime) * 1000);
+      // this.SetInterval = setInterval(() => {
+      //   this.GetDigitalAlertList();
+      // }, Number(this.DigitalTime) * 1000);
     }
+  }
+
+  openNav() {
+    document.getElementById("myNav").style.width = "20%";
+  }
+
+  closeNav(){
+    document.getElementById("myNav").style.width = "0%";
+  }
+
+  OnReloadAlert(){
+    this.GetDigitalAlertList();
   }
 
   GetDigitalAlertList() {

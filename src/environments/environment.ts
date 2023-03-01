@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  // apiUrl: 'http://2bofficedubai.ddns.net:8002'
+  apiUrl: 'http://2bofficedubai.ddns.net:8001'
 
-  apiUrl: 'http://192.168.223.254:8004'
+  // apiUrl: 'http://192.168.223.254:8001'
   
   // apiUrl: 'http://192.168.223.72:8002'
 };
